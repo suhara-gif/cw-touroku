@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>整備士 無料登録｜カーワーク</title>
+<meta name="description" content="ご登録いただいた内容をもとに、担当者よりご連絡いたします。">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1b2a4a;--navy2:#24365e;--accent:#f28c28;--accent2:#e2711a;--bg:#f4f6fa;--line:#dfe4ee;--text:#1f2633;--muted:#6b7385;--err:#d93025;--ok:#1e9e6a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.hero{position:relative;min-height:220px;background:var(--navy) url("hero.webp") center 30%/cover no-repeat;color:#fff;display:flex;align-items:flex-end}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(27,42,74,.15) 0%,rgba(27,42,74,.92) 85%)}
+.hero-in{position:relative;width:100%;max-width:640px;margin:0 auto;padding:28px 20px 26px}
+.badge{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12px;padding:4px 10px;border-radius:999px;letter-spacing:.05em}
+.hero h1{font-size:26px;font-weight:900;line-height:1.35;margin:10px 0 6px;letter-spacing:.02em}
+.hero p{font-size:13px;opacity:.92}
+.wrap{max-width:640px;margin:-14px auto 0;padding:0 14px 40px;position:relative}
+.card{background:#fff;border-radius:16px;box-shadow:0 6px 24px rgba(27,42,74,.10);padding:22px 18px 24px}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.prog-bar{flex:1;height:8px;background:#e8ecf3;border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;width:33.3%;background:linear-gradient(90deg,var(--accent),#f6a54c);border-radius:99px;transition:width .35s ease}
+.prog-txt{font-size:12px;font-weight:700;color:var(--navy);white-space:nowrap}
+.steps{display:flex;justify-content:space-between;margin:-8px 0 18px;font-size:11px;color:var(--muted)}
+.steps span.on{color:var(--navy);font-weight:700}
+.step{display:none;animation:fade .3s ease}
+.step.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.q{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:14px}
+.req{display:inline-block;background:var(--err);color:#fff;font-size:10px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.opts{display:grid;gap:12px}
+.opt{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:14px 16px;background:#fff;border:2px solid var(--line);border-radius:14px;font:inherit;font-size:16px;font-weight:700;color:var(--text);text-align:left;cursor:pointer;transition:border-color .15s,background .15s,transform .1s}
+.opt:hover{border-color:#c4cbd9}
+.opt:active{transform:scale(.99)}
+.opt .mk{flex:0 0 32px;height:32px;border-radius:50%;background:var(--bg);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px}
+.opt[aria-checked="true"]{border-color:var(--accent);background:#fff6ec}
+.opt[aria-checked="true"] .mk{background:var(--accent);color:#fff}
+.opt:focus-visible{outline:3px solid #9cc3ff;outline-offset:2px}
+.grid2{grid-template-columns:1fr 1fr}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.field input{width:100%;height:52px;padding:0 14px;border:2px solid var(--line);border-radius:12px;font:inherit;font-size:16px;background:#fff;color:var(--text)}
+.field input:focus{outline:none;border-color:var(--navy2)}
+.field.bad input{border-color:var(--err);background:#fff8f7}
+.msg{display:none;color:var(--err);font-size:12px;margin-top:6px;font-weight:500}
+.field.bad .msg,.grp.bad .msg{display:block}
+.hint{font-size:11px;color:var(--muted);margin-top:4px}
+.nav{display:flex;gap:10px;margin-top:22px}
+.btn{flex:1;height:56px;border:0;border-radius:999px;font:inherit;font-size:17px;font-weight:900;cursor:pointer;letter-spacing:.04em}
+.btn-main{background:linear-gradient(180deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 0 #b9580f}
+.btn-main:active{transform:translateY(2px);box-shadow:0 2px 0 #b9580f}
+.btn-main[disabled]{opacity:.6;cursor:wait}
+.btn-back{flex:0 0 96px;background:#eef1f6;color:var(--navy)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.done{text-align:center;padding:16px 4px}
+.done .ic{width:72px;height:72px;margin:0 auto 14px;border-radius:50%;background:var(--ok);display:flex;align-items:center;justify-content:center}
+.done h2{font-size:20px;color:var(--navy);margin-bottom:8px}
+.done p{font-size:14px;color:var(--muted)}
+.sendErr{display:none;margin-top:12px;color:var(--err);font-size:13px;text-align:center}
+.foot{text-align:center;font-size:11px;color:var(--muted);margin-top:18px}
+@media(min-width:768px){.hero{min-height:300px}.hero h1{font-size:34px}.card{padding:32px 34px}.wrap{margin-top:-28px}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-in">
+    <span class="badge">完全無料・1分で完了</span>
+    <h1>整備士 無料登録</h1>
+    <p>ご登録いただいた内容をもとに、担当者よりご連絡いたします。</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <form class="card" id="f" novalidate>
+    <div id="progArea">
+      <div class="prog"><div class="prog-bar"><div class="prog-fill" id="fill"></div></div><div class="prog-txt" id="ptxt">STEP 1 / 3</div></div>
+      <div class="steps"><span class="on">気持ち</span><span>資格</span><span>連絡先</span></div>
+    </div>
+
+    <section class="step on" data-step="1">
+      <h2 class="q">今のお気持ちに近いのは？<span class="req">必須</span></h2>
+      <div class="opts grp" role="radiogroup" data-name="q1">
+        <button type="button" class="opt" role="radio" aria-checked="false" data-v="A 詳しい内容を確認したい"><span class="mk">A</span>詳しい内容を確認したい</button>
+        <button type="button" class="opt" role="radio" aria-checked="false" data-v="B まずは案件を見たい"><span class="mk">B</span>まずは案件を見たい</button>
+        <div class="msg">どちらかを選んでください</div>
+      </div>
+    </section>
+
+    <section class="step" data-step="2">
+      <h2 class="q">整備士資格はお持ちですか？<span class="req">必須</span></h2>
+      <div class="opts grp grid2" role="radiogroup" data-name="q2">
+        <button type="button" class="opt" role="radio" aria-checked="false" data-v="自動車整備士1級"><span class="mk">1</span>1級</button>
+        <button type="button" class="opt" role="radio" aria-checked="false" data-v="2級"><span class="mk">2</span>2級</button>
+        <button type="button" class="opt" role="radio" aria-checked="false" data-v="3級"><span class="mk">3</span>3級</button>
+        <button type="button" class="opt" role="radio" aria-checked="false" data-v="なし"><span class="mk">–</span>なし</button>
+        <div class="msg" style="grid-column:1/-1">いずれかを選んでください</div>
+      </div>
+      <div class="nav"><button type="button" class="btn btn-back" data-back>戻る</button></div>
+    </section>
+
+    <section class="step" data-step="3">
+      <h2 class="q">ご連絡先を入力してください</h2>
+      <div class="field" id="f-name"><label for="name">氏名<span class="req">必須</span></label>
+        <input id="name" name="name" autocomplete="name" placeholder="例）山田 太郎" required><div class="msg">氏名を入力してください</div></div>
+      <div class="field" id="f-email"><label for="email">メール<span class="req">必須</span></label>
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="例）taro@example.com" required><div class="msg">有効なメールアドレスを入力してください</div></div>
+      <div class="field" id="f-tel"><label for="tel">電話<span class="req">必須</span></label>
+        <input id="tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="例）09012345678" required><div class="msg">電話番号を正しく入力してください</div><div class="hint">ハイフンあり・なし、どちらでも入力できます</div></div>
+      <input class="hp" name="company_url" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="nav"><button type="button" class="btn btn-back" data-back>戻る</button><button type="submit" class="btn btn-main" id="sub">無料で登録する</button></div>
+      <div class="sendErr" id="sendErr">送信できませんでした。通信環境をご確認のうえ、もう一度お試しください。</div>
+    </section>
+
+    <section class="step done" data-step="4" aria-live="polite">
+      <div class="ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2>ご登録ありがとうございます</h2>
+      <p>担当者より2営業日以内にご連絡いたします。</p>
+    </section>
+  </form>
+  <p class="foot">© カーワーク</p>
+</main>
+
+<script>
+(function(){
+  var ENDPOINT='https://script.google.com/macros/s/AKfycbyHwj8GlLy3DuqzlKkKWvBWfz0DfiJ4d7yPA2JzML7WJHrIa4wi9YCEJIFvlMTY-4pn/exec';
+  var GTM_ID='GTM-TZDPVNZ';
+  var EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/, TEL_RE=/^0\d{9,10}$|^0\d{1,4}-\d{1,4}-\d{3,4}$/;
+  var f=document.getElementById('f'), fill=document.getElementById('fill'), ptxt=document.getElementById('ptxt');
+  var labels=document.querySelectorAll('.steps span'), ans={q1:'',q2:''}, cur=1;
+
+  // UTM・gclid をURLから取り、同じタブの中で保持する
+  var qs=new URLSearchParams(location.search), keys=['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid'], track={};
+  keys.forEach(function(k){var v=qs.get(k);try{if(v)sessionStorage.setItem('cw_'+k,v);track[k]=v||sessionStorage.getItem('cw_'+k)||'';}catch(e){track[k]=v||'';}});
+
+  function go(n){
+    cur=n;
+    document.querySelectorAll('.step').forEach(function(s){s.classList.toggle('on',+s.dataset.step===n)});
+    if(n<=3){fill.style.width=(n/3*100)+'%';ptxt.textContent='STEP '+n+' / 3';labels.forEach(function(l,i){l.classList.toggle('on',i<n)})}
+    else{document.getElementById('progArea').style.display='none'}
+    var top=f.getBoundingClientRect().top+window.scrollY-12; if(window.scrollY>top)window.scrollTo({top:top,behavior:'smooth'});
+  }
+  document.querySelectorAll('.grp').forEach(function(g){
+    g.addEventListener('click',function(e){
+      var b=e.target.closest('.opt'); if(!b)return;
+      g.querySelectorAll('.opt').forEach(function(o){o.setAttribute('aria-checked',o===b?'true':'false')});
+      ans[g.dataset.name]=b.dataset.v; g.classList.remove('bad');
+      setTimeout(function(){go(cur+1)},220);
+    });
+  });
+  document.querySelectorAll('[data-back]').forEach(function(b){b.addEventListener('click',function(){go(cur-1)})});
+
+  function check(id,ok){document.getElementById('f-'+id).classList.toggle('bad',!ok);return ok}
+  function val(id){return document.getElementById(id).value.trim()}
+  function normTel(v){return v.replace(/[０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-65248)}).replace(/[－ー―‐−]/g,'-').replace(/\s/g,'')}
+  function validate(id){
+    if(id==='name')return check('name',!!val('name'));
+    if(id==='email')return check('email',EMAIL_RE.test(val('email')));
+    if(id==='tel'){var t=normTel(val('tel'));document.getElementById('tel').value=t;return check('tel',TEL_RE.test(t))}
+  }
+  ['name','email','tel'].forEach(function(id){document.getElementById(id).addEventListener('blur',function(){if(val(id))validate(id)})});
+
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!ans.q1){go(1);document.querySelector('[data-name=q1]').classList.add('bad');return}
+    if(!ans.q2){go(2);document.querySelector('[data-name=q2]').classList.add('bad');return}
+    var ok=['name','email','tel'].map(validate).every(Boolean);
+    if(!ok){var b=document.querySelector('.field.bad input');if(b)b.focus();return}
+    var sub=document.getElementById('sub'), err=document.getElementById('sendErr');
+    sub.disabled=true; sub.textContent='送信中…'; err.style.display='none';
+    var data=Object.assign({q1:ans.q1,q2:ans.q2,name:val('name'),email:val('email'),tel:val('tel'),
+      page:location.href.slice(0,500),ref:document.referrer.slice(0,500),ua:navigator.userAgent.slice(0,300),hp:f.company_url.value},track);
+    // Apps Script の応答はブラウザから読めないため、text/plain・no-cors で送る
+    fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data),keepalive:true})
+      .then(function(){complete()})
+      .catch(function(){sub.disabled=false;sub.textContent='無料で登録する';err.style.display='block'});
+  });
+
+  function complete(){
+    go(4);
+    // 完了時だけ GTM を読み込み、登録完了イベントを送る
+    window.dataLayer=window.dataLayer||[];
+    (function(w,d,s,l,i){w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var j=d.createElement(s);j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;d.head.appendChild(j)})(window,document,'script','dataLayer',GTM_ID);
+    window.dataLayer.push({event:'lp_registration',lp_id:'temp_form',form_name:'cw_temp_register'});
+  }
+})();
+</script>
+</body>
+</html>
