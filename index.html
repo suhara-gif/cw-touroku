@@ -43,6 +43,10 @@ body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku 
 .grid2{grid-template-columns:1fr 1fr}
 .field{margin-bottom:16px}
 .field label{display:block;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.field select{width:100%;height:52px;padding:0 40px 0 14px;border:2px solid var(--line);border-radius:12px;font:inherit;font-size:16px;background:#fff url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%278%27%3E%3Cpath d=%27M1 1l5 5 5-5%27 stroke=%27%231b2a4a%27 stroke-width=%272%27 fill=%27none%27/%3E%3C/svg%3E") no-repeat right 16px center;color:var(--text);-webkit-appearance:none;appearance:none}
+.field select:invalid{color:var(--muted)}
+.field select:focus{outline:none;border-color:var(--navy2)}
+.field.bad select{border-color:var(--err);background-color:#fff8f7}
 .field input{width:100%;height:52px;padding:0 14px;border:2px solid var(--line);border-radius:12px;font:inherit;font-size:16px;background:#fff;color:var(--text)}
 .field input:focus{outline:none;border-color:var(--navy2)}
 .field.bad input{border-color:var(--err);background:#fff8f7}
@@ -104,6 +108,8 @@ body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku 
 
     <section class="step" data-step="3">
       <h2 class="q">ご連絡先を入力してください</h2>
+      <div class="field" id="f-pref"><label for="pref">お住まいの都道府県<span class="req">必須</span></label>
+        <select id="pref" name="pref" autocomplete="address-level1" required><option value="" selected disabled>選択してください</option><option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option><option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option><option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option><option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option><option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option><option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option><option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option><option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option><option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option><option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option><option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option><option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option></select><div class="msg">都道府県を選んでください</div></div>
       <div class="field" id="f-name"><label for="name">氏名<span class="req">必須</span></label>
         <input id="name" name="name" autocomplete="name" placeholder="例）山田 太郎" required><div class="msg">氏名を入力してください</div></div>
       <div class="field" id="f-email"><label for="email">メール<span class="req">必須</span></label>
@@ -156,21 +162,23 @@ body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku 
   function val(id){return document.getElementById(id).value.trim()}
   function normTel(v){return v.replace(/[０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-65248)}).replace(/[－ー―‐−]/g,'-').replace(/\s/g,'')}
   function validate(id){
+    if(id==='pref')return check('pref',!!document.getElementById('pref').value);
     if(id==='name')return check('name',!!val('name'));
     if(id==='email')return check('email',EMAIL_RE.test(val('email')));
     if(id==='tel'){var t=normTel(val('tel'));document.getElementById('tel').value=t;return check('tel',TEL_RE.test(t))}
   }
   ['name','email','tel'].forEach(function(id){document.getElementById(id).addEventListener('blur',function(){if(val(id))validate(id)})});
+  document.getElementById('pref').addEventListener('change',function(){validate('pref')});
 
   f.addEventListener('submit',function(e){
     e.preventDefault();
     if(!ans.q1){go(1);document.querySelector('[data-name=q1]').classList.add('bad');return}
     if(!ans.q2){go(2);document.querySelector('[data-name=q2]').classList.add('bad');return}
-    var ok=['name','email','tel'].map(validate).every(Boolean);
-    if(!ok){var b=document.querySelector('.field.bad input');if(b)b.focus();return}
+    var ok=['pref','name','email','tel'].map(validate).every(Boolean);
+    if(!ok){var b=document.querySelector('.field.bad select,.field.bad input');if(b)b.focus();return}
     var sub=document.getElementById('sub'), err=document.getElementById('sendErr');
     sub.disabled=true; sub.textContent='送信中…'; err.style.display='none';
-    var data=Object.assign({q1:ans.q1,q2:ans.q2,name:val('name'),email:val('email'),tel:val('tel'),
+    var data=Object.assign({q1:ans.q1,q2:ans.q2,pref:document.getElementById('pref').value,name:val('name'),email:val('email'),tel:val('tel'),
       page:location.href.slice(0,500),ref:document.referrer.slice(0,500),ua:navigator.userAgent.slice(0,300),hp:f.company_url.value},track);
     // Apps Script の応答はブラウザから読めないため、text/plain・no-cors で送る
     fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data),keepalive:true})
