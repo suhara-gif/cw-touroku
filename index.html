@@ -53,6 +53,29 @@ body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku 
 .backrow{margin-top:14px;text-align:center}
 .backlink{background:none;border:0;font:inherit;font-size:14px;color:var(--muted);text-decoration:underline;cursor:pointer;padding:6px 10px}
 .bigbtn:focus-visible{outline:3px solid #9cc3ff;outline-offset:2px}
+.agree{font-size:12px;color:var(--muted);text-align:center;margin:20px 0 10px;line-height:1.7}
+.tlink{background:none;border:0;padding:0;font:inherit;color:var(--navy);text-decoration:underline;cursor:pointer}
+.note{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6}
+.nav3{margin-top:0}
+.cta2{justify-content:center;min-height:76px;text-align:center}
+.ctxt{display:flex;flex-direction:column;align-items:center;line-height:1.3}
+.c1{font-size:13px;font-weight:700}
+.c2{font-size:21px;font-weight:900}
+.mbg{position:fixed;inset:0;background:rgba(15,22,38,.55);z-index:50}
+.modal{position:fixed;z-index:51;left:0;right:0;bottom:0;max-height:88vh;background:#fff;border-radius:16px 16px 0 0;display:flex;flex-direction:column;box-shadow:0 -8px 30px rgba(0,0,0,.25);animation:up .25s ease}
+.modal[hidden],.mbg[hidden]{display:none}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.mhead{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
+.mhead h3{font-size:16px;color:var(--navy)}
+.mclose{background:#eef1f6;border:0;border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer}
+.mbody{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 18px 20px;font-size:13px;line-height:1.75;color:var(--text)}
+.mbody h4{font-size:14px;font-weight:900;color:var(--navy);margin:16px 0 4px}
+.mbody p{margin:0 0 8px}
+.mbody .nl{list-style:none;margin:0 0 8px;padding-left:.5em}
+.mfoot{padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+.mok{width:100%;height:50px;border:0;border-radius:10px;background:var(--navy);color:#fff;font:inherit;font-size:16px;font-weight:700;cursor:pointer}
+body.lock{overflow:hidden}
+@media(min-width:768px){.modal{left:50%;right:auto;bottom:auto;top:50%;transform:translate(-50%,-50%);width:640px;max-height:80vh;border-radius:16px;animation:none}}
 .grid2{grid-template-columns:1fr 1fr}
 .field{margin-bottom:16px}
 .field label{display:block;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px}
@@ -130,18 +153,116 @@ body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku 
       <div class="field" id="f-tel"><label for="tel">電話<span class="req">必須</span></label>
         <input id="tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="例）09012345678" required><div class="msg">電話番号を正しく入力してください</div><div class="hint">ハイフンあり・なし、どちらでも入力できます</div></div>
       <input class="hp" name="company_url" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <div class="nav3"><button type="submit" class="bigbtn bb-orange" id="sub"><span id="subTxt">無料で登録する</span><span class="arw" aria-hidden="true">▶</span></button></div>
+      <p class="agree"><button type="button" class="tlink" data-modal="m-terms">利用規約</button>・<button type="button" class="tlink" data-modal="m-privacy">個人情報の取り扱い</button>をご確認のうえ、ボタンを押してください</p>
+      <div class="nav3"><button type="submit" class="bigbtn bb-orange cta2" id="sub"><span class="ctxt"><span class="c1" id="subTop">利用規約に同意して、</span><span class="c2" id="subTxt">検索結果を見る ▶︎▷</span></span></button></div>
+      <p class="note">※ご希望に合う求人をご紹介するため、提携する職業紹介事業者へ情報を提供する場合があります（利用規約 第8条）</p>
       <div class="backrow"><button type="button" class="backlink" data-back>‹ 戻る</button></div>
       <div class="sendErr" id="sendErr">送信できませんでした。通信環境をご確認のうえ、もう一度お試しください。</div>
     </section>
 
     <section class="step done" data-step="4" aria-live="polite">
       <div class="ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
-      <h2>ご登録ありがとうございます</h2>
-      <p>担当者より2営業日以内にご連絡いたします。</p>
+      <h2>ご登録ありがとうございます。<br>あなたの条件に合う求人を、担当者よりご案内します</h2>
     </section>
   </form>
 </main>
+<div class="mbg" id="mbg" hidden></div>
+<div class="modal" id="m-terms" role="dialog" aria-modal="true" aria-labelledby="mt1" hidden>
+  <div class="mhead"><h3 id="mt1">利用規約（求職者様向け）</h3><button type="button" class="mclose" data-close>閉じる</button></div>
+  <div class="mbody" tabindex="0"><p>株式会社アプティ（以下「当社」といいます）が提供する転職支援サービス（以下「本サービス」といいます）のご利用にあたって、以下の利用規約をご確認、ご承諾いただいたうえで お申込みくださいますようお願いいたします。</p>
+<h4>第1条（カーワク）</h4>
+<p>「カーワク」（以下「本サービス」といいます）とは、株式会社アプティ（以下「当社」といいます）が提供する次のサービスの総称をいいます。</p>
+<p>インターネット上における求人情報検索、求人情報および求人応募サービス、職業紹介サービスの提供</p>
+<h4>第2条（会員）</h4>
+<p>会員（以下「会員」といいます）とは、本サービスに個人情報（個人情報の取り扱いについての定義に従います）その他の情報を登録（以下「会員登録」といいます）し、当社がこれを承認した方をいいます。 会員は、会員登録および承認後、本サービスにおける会員向けサービスを利用できるものとします。</p>
+<p>会員は、会員登録した時点で、本規約および個人情報の取り扱いについての内容をすべて承諾したものとみなされます。不承諾の意思表示は、本サービスへの会員登録をしないことをもってのみ認められるものとします。</p>
+<h4>第3条（会員登録・責任）</h4>
+<p>本サービスへの会員登録は、会員になろうとする者が自らの意思および責任をもって行うものとします。また、会員は、自らの意思によって本サービスを利用し、利用にかかわるすべての責任を負うものとします。</p>
+<p>会員は、当社がお知らせする方法に従って本サービスを利用するものとします。</p>
+<p>会員は、会員登録した情報の内容（正確性・真実性・最新性等）について全責任を負うものとします。</p>
+<h4>第4条（会員登録情報の変更等）</h4>
+<p>会員は、本サービスの会員専用ページにおいて、いつでも会員登録した情報を変更・追加・削除することができます。また、会員は、自由に本サービスから退会することができます。</p>
+<p>会員が退会手続きを行わない場合、または退会意思がない場合であっても、会員が本サービスの会員専用ページに最後にログインした日から1年間に一度もログインをしなかった場合、当社は、会員への事前の通知なく、退会手続きを行うことができるものとします。</p>
+<p>当社は、第三者の情報が登録されている等、会員登録情報に誤りがあると判断した場合、または会員登録情報に変更があったにもかかわらず、更新されていないと判断した場合には、会員に対して事前に通知することなく、当該会員登録情報を変更、または退会手続きを行うことができるものとします。</p>
+<h4>第5条（提供情報について）</h4>
+<p>会員は、本サービスにおいて提供される情報（求人情報、広告その他第三者により提供される情報）に関して、提供情報の正確性、真実性、合法性、安全性、適切性、有用性、最新性、掲載期限、その他一切の事項について、当社が何ら保証しないことを予め承諾したうえで、自己の責任において利用するものとします。</p>
+<p>当社は、本サービスの提供に不具合、エラーおよび障害が生じないこと、本サービスを通じて入手できる商品、役務、情報等が会員の期待を満たすものであることを保証しません。</p>
+<h4>第6条（会員の責任）</h4>
+<p>会員は、本サービスが、求職活動の場を提供することを目的とするものであり、必ずしも会員を転職の成功に導かない可能性があることを認識したうえで、本サービスを利用するものとします。</p>
+<p>当社は、会員が求人企業へ直接応募した場合、すべての連絡、交渉等に関与しないものとします。また、会員は、自己の責任において、求人企業に労働条件を確認したうえで、雇用契約を結ぶものとします。</p>
+<h4>第7条（企業等からの連絡）</h4>
+<p>会員は、会員登録した情報および活動情報にもとづき、当社と求人企業から諸連絡を受け取る場合があることを承諾するものとします。</p>
+<h4>第8条（個人情報の取り扱い）</h4>
+<p>本サービスにおける本サービスにおける会員の個人情報の取り扱いについては、「個人情報の取り扱いについて」をご確認ください。ただし、会員は、当社または求人企業に提供した個人情報について、当社職業紹介サービス及び求人企業が別途定める基準に従って取り扱われることに予め同意するものとします。</p>
+<p>当社が提携する他の職業紹介事業者に対し、会員の希望条件に合致する求人を紹介する目的で、会員の個人情報を提供する場合があることについて、会員はこれを予め承諾するものとします。</p>
+<h4>第9条（情報の利用）</h4>
+<p>当社は、本サービスを利用して会員が登録した会員の個人情報、本サービスの利用履歴等の情報（閲覧履歴、応募履歴、検討リスト保存履歴、職業紹介担当コンサルタントと会員との交信内容等を含みますが、これらに限りません）を、抽出・集計した統計的な情報（以下「統計情報」といいます）を、何らの制限なく利用することができるものとし、会員はこれを予め承諾するものとします。なお、統計情報の著作権は当社に帰属するものとし、当社による統計情報の利用は、当該会員が会員でなくなった（理由を問いません）後も継続することがあります。</p>
+<p>当社は、会員が本サービスを通じて応募した職業紹介事業者等または求人企業から、会員の転職活動の進捗状況の報告を受ける場合があり、会員はこれを予め承諾するものとします。</p>
+<h4>第10条（著作権および提供された情報の利用）</h4>
+<p>本サービスに掲載されているすべてのコンテンツ（写真、イラスト等を含みます、以下同じとします）の著作権は当社に帰属します。ただし、求人企業等が投稿したコンテンツについては、その限りではありません。</p>
+<p>当社は、本サービスへの提供情報（個人が特定される情報を除く）、およびそれをもとに当社が作成したすべてのコンテンツを、当社が編集、発行、および発売等を行うものに二次利用できるものとします。なお、二次利用において生じたものに関する著作権は、当社に帰属します。</p>
+<h4>第11条（禁止行為）</h4>
+<p>会員は、本サービスにおいて、次に定める行為またはそのおそれのある行為を行ってはならないものとします。</p>
+<ul class="nl">
+<li>(1)当社または第三者の知的財産権、プライバシー、名誉、肖像権等の権利を侵害する行為。</li>
+<li>(2)当社または第三者を差別、批判、攻撃、または誹謗中傷する行為。</li>
+<li>(3)当社または第三者に対して、不利益を与える行為。</li>
+<li>(4)重複、虚偽の情報、または自己以外の情報を登録、告知、提供する行為。</li>
+<li>(5)営業活動、営利を目的とする情報を提供する行為。</li>
+<li>(6)政治活動、選挙活動、宗教活動またはそれらに類する行為。</li>
+<li>(7)本サービスを通じて入手した情報を、複製、販売、出版、その他私的利用の範囲を超えて使用する行為。</li>
+<li>(8)本サービスの運営を妨げ、または当社の信用を毀損する行為。</li>
+<li>(9)暴力的な言動、またはそれに類する行為。</li>
+<li>(10)法令、または公序良俗に反する行為。</li>
+<li>(11)前各号に定めるほか、求職活動に関係しないと当社が判断する行為。</li>
+</ul>
+<p>当社は、前項に定める行為を行った会員に対して、本サービスの利用を停止し、将来にわたって利用することを拒否する権利を有するものとします。</p>
+<h4>第12条（免責）</h4>
+<p>当社は、本サービスの利用（これらに伴う当社、または第三者の情報提供行為等を含みます）によって生じた損害については、当社に故意または重過失がない限り、当社は一切の責任を負わないものとし、当社が責任を負う場合でも、直接かつ現実に生じた通常の損害のみ責任を負うものとします。ただし、次に定める事由により生じた損害については、一切責任を負わないものとします。</p>
+<ul class="nl">
+<li>(1)本サービスにおいて懸賞や販売促進活動等を行っている第三者、または本サービスを通じてアクセスできる第三者が提供する、ウェブサイトおよびサービスに関して生じた損害。</li>
+<li>(2)通常講ずるべき対策では防止できないウィルス被害、または天変地異による損害。</li>
+<li>(3)通信回線、コンピュータ、またはソフトウェア等の障害によるシステムの中断・遅滞・中止・データの消失、データへの不正アクセスにより生じた損害。</li>
+<li>(4)その他当社の責めによらない事由による生じた損害。</li>
+</ul>
+<p>当社は、本サービスにおけるデータが消去・変更されないことを保証しません。必要なデータは会員が自己の責任において保存してください。</p>
+<p>当社は、本サービスにおける当社ならびに求人企業の検討基準や判断理由等について、質問等への回答、その他対応は一切行いません。</p>
+<p>会員が本サービスの利用により求人企業および第三者との間に生じた紛争等は、すべて会員の責任において解決し、当社は、故意または重過失がない限り、何らの責任を負わず、これに介入しないものとします。</p>
+<h4>第13条（反社会的勢力の排除）</h4>
+<p>会員は、次の者に該当しないこと、および今後もこれに該当しないことを保証し、会員がこれに該当した場合、または該当していたことが判明した場合には、当社は別段の催告を要せず、直ちに本サービスの利用を停止させることができるものとします。 暴力団、暴力団員、暴力団員でなくなった時から５年を経過しない者、暴力団準構成員、暴力団関係企業、総会屋等、社会運動等標ぼうゴロまたは特殊知能暴力集団、その他これらに準ずる者（以下これらを「反社会的勢力」といいます）であること。</p>
+<p>会員が次の各号のいずれかに該当した場合、当社は、別段の催告を要せず、直ちに本サービスの利用を停止させることができるものとします。当社に対して脅迫的な言動をすること、もしくは暴力を用いること、または当社の名誉・信用を毀損する行為を行うこと。</p>
+<p>偽計または威力を用いて当社の業務を妨害すること。</p>
+<p>当社に対して法的な責任を超えた不当な要求をすること。</p>
+<p>反社会的勢力である第三者をして前三号の行為を行わせること。</p>
+<h4>第14条（除名）</h4>
+<p>会員が本規約に違反したものと当社が判断した場合、当社は、当該会員に対して事前に通知することなく、会員向けサービスの全部または一部の利用を中止し、または除名処分とする等、当社が適当と認めるあらゆる措置を講ずることができるものとします。なお、当社は、会員への除名等の処分に関するいかなる問い合わせにも回答する義務を負いません。</p>
+<h4>第15条（損害賠償）</h4>
+<p>会員が本規約に違反し、当社に損害を与えた場合、会員は、当社に生じた一切の損害の賠償義務を負うものとします。</p>
+<h4>第16条（サービスの変更等）</h4>
+<p>当社は、会員への事前の通知なくして、本サービスの変更、または一時的な中断を行うことができるものとします。</p>
+<p>当社は、１ヶ月の予告期間をもって会員に通知のうえ、本サービス全体の提供を長期的に中断または終了することができるものとします。</p>
+<h4>第17条（分離条項）</h4>
+<p>本規約の一部の効力が、法令や確定判決により無効とされた場合であっても、その他の条項は引き続き効力を有するものとします。</p>
+<h4>第18条（規約の変更）</h4>
+<p>当社は、次の各号に定める場合、会員の同意を得ることなく、本規約を変更することができるものとします。本規約の変更が、会員の一般の利益に適合する場合。</p>
+<p>本規約の変更が、本サービスの目的に反せず、かつ、変更の必要性、変更後の内容の相当性、変更の内容、その他の変更にかかる事情に照らして合理的なものである場合。</p>
+<p>当社は、前項による本規約の変更にあたり、変更実施日の１ヶ月前までに、本規約を変更する旨および変更後の本規約の内容を本サービス上に掲示、または会員に電子メールで通知します。</p>
+<h4>第19条（準拠法および管轄）</h4>
+<p>本規約は日本法を準拠法とし、本規約に関係する一切の紛争については、訴額に応じて東京地方裁判所または東京簡易裁判所を第一審の専属的合意管轄裁判所とします。</p>
+<p>付則 2017年6月1日</p>
+<p>改訂日 2021年12月22日</p></div>
+  <div class="mfoot"><button type="button" class="mok" data-close>同意して閉じる</button></div>
+</div>
+<div class="modal" id="m-privacy" role="dialog" aria-modal="true" aria-labelledby="mt2" hidden>
+  <div class="mhead"><h3 id="mt2">個人情報の取り扱い</h3><button type="button" class="mclose" data-close>閉じる</button></div>
+  <div class="mbody" tabindex="0"><p>ご登録いただいた個人情報は、次のとおり取り扱います。</p>
+<h4>事業者名</h4><p>株式会社アプティ</p>
+<h4>利用目的</h4><p>職業紹介サービスの提供と、求人のご案内</p>
+<h4>第三者への提供</h4><p>利用規約 第8条のとおり</p>
+<h4>お問い合わせ先</h4><p>株式会社アプティ<br>〒150-0022 東京都渋谷区恵比寿南1-5-5 JR恵比寿ビル7F<br>電話：03-6694-2099（受付時間 9:30〜18:30）<br>メール：info@upty.jp</p></div>
+  <div class="mfoot"><button type="button" class="mok" data-close>同意して閉じる</button></div>
+</div>
+
 
 <script>
 (function(){
@@ -172,6 +293,15 @@ body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku 
   });
   document.querySelectorAll('[data-back]').forEach(function(b){b.addEventListener('click',function(){go(cur-1)})});
 
+
+  // 規約モーダル（スマホはボトムシート）。閉じたら入力内容とスクロール位置をそのまま戻す
+  var mbg=document.getElementById('mbg'), openM=null, lastY=0, lastBtn=null;
+  function openModal(id,btn){lastY=window.scrollY;lastBtn=btn;openM=document.getElementById(id);mbg.hidden=false;openM.hidden=false;document.body.classList.add('lock');openM.querySelector('.mbody').scrollTop=0;openM.querySelector('.mclose').focus({preventScroll:true});}
+  function closeModal(){if(!openM)return;openM.hidden=true;mbg.hidden=true;document.body.classList.remove('lock');openM=null;window.scrollTo(0,lastY);if(lastBtn)lastBtn.focus({preventScroll:true});}
+  document.querySelectorAll('[data-modal]').forEach(function(b){b.addEventListener('click',function(){openModal(b.dataset.modal,b)})});
+  document.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',closeModal)});
+  mbg.addEventListener('click',closeModal);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});
   function check(id,ok){document.getElementById('f-'+id).classList.toggle('bad',!ok);return ok}
   function val(id){return document.getElementById(id).value.trim()}
   function normTel(v){return v.replace(/[０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-65248)}).replace(/[－ー―‐−]/g,'-').replace(/\s/g,'')}
@@ -192,13 +322,13 @@ body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku 
     var ok=['pref','name','email','tel'].map(validate).every(Boolean);
     if(!ok){var b=document.querySelector('.field.bad select,.field.bad input');if(b)b.focus();return}
     var sub=document.getElementById('sub'), err=document.getElementById('sendErr');
-    sub.disabled=true; document.getElementById('subTxt').textContent='送信中…'; err.style.display='none';
-    var data=Object.assign({q1:ans.q1,q2:ans.q2,pref:document.getElementById('pref').value,name:val('name'),email:val('email'),tel:val('tel'),
+    sub.disabled=true; document.getElementById('subTop').style.display='none'; document.getElementById('subTxt').textContent='送信中…'; err.style.display='none';
+    var data=Object.assign({agreed_at:new Date().toISOString(),q1:ans.q1,q2:ans.q2,pref:document.getElementById('pref').value,name:val('name'),email:val('email'),tel:val('tel'),
       page:location.href.slice(0,500),ref:document.referrer.slice(0,500),ua:navigator.userAgent.slice(0,300),hp:f.company_url.value},track);
     // Apps Script の応答はブラウザから読めないため、text/plain・no-cors で送る
     fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data),keepalive:true})
       .then(function(){complete()})
-      .catch(function(){sub.disabled=false;document.getElementById('subTxt').textContent='無料で登録する';err.style.display='block'});
+      .catch(function(){sub.disabled=false;document.getElementById('subTop').style.display='';document.getElementById('subTxt').textContent='検索結果を見る ▶︎▷';err.style.display='block'});
   });
 
   function complete(){
