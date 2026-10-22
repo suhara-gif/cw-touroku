@@ -48,6 +48,10 @@ body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku 
 .bigbtn:hover{filter:brightness(1.05)}
 .bigbtn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.18)}
 .bigbtn[aria-checked="true"]{outline:3px solid #1b2a4a;outline-offset:2px}
+.nav3{margin-top:22px}
+.bigbtn[disabled]{opacity:.65;cursor:wait;transform:none}
+.backrow{margin-top:14px;text-align:center}
+.backlink{background:none;border:0;font:inherit;font-size:14px;color:var(--muted);text-decoration:underline;cursor:pointer;padding:6px 10px}
 .bigbtn:focus-visible{outline:3px solid #9cc3ff;outline-offset:2px}
 .grid2{grid-template-columns:1fr 1fr}
 .field{margin-bottom:16px}
@@ -105,14 +109,14 @@ body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku 
 
     <section class="step" data-step="2">
       <h2 class="q">整備士資格はお持ちですか？<span class="req">必須</span></h2>
-      <div class="opts grp grid2" role="radiogroup" data-name="q2">
-        <button type="button" class="opt" role="radio" aria-checked="false" data-v="自動車整備士1級"><span class="mk">1</span>1級</button>
-        <button type="button" class="opt" role="radio" aria-checked="false" data-v="2級"><span class="mk">2</span>2級</button>
-        <button type="button" class="opt" role="radio" aria-checked="false" data-v="3級"><span class="mk">3</span>3級</button>
-        <button type="button" class="opt" role="radio" aria-checked="false" data-v="なし"><span class="mk">–</span>なし</button>
-        <div class="msg" style="grid-column:1/-1">いずれかを選んでください</div>
+      <div class="big grp" role="radiogroup" data-name="q2">
+        <button type="button" class="bigbtn bb-teal" role="radio" aria-checked="false" data-v="自動車整備士1級"><span>自動車整備士1級</span><span class="arw" aria-hidden="true">▶</span></button>
+        <button type="button" class="bigbtn bb-teal" role="radio" aria-checked="false" data-v="2級"><span>2級</span><span class="arw" aria-hidden="true">▶</span></button>
+        <button type="button" class="bigbtn bb-teal" role="radio" aria-checked="false" data-v="3級"><span>3級</span><span class="arw" aria-hidden="true">▶</span></button>
+        <button type="button" class="bigbtn bb-teal" role="radio" aria-checked="false" data-v="なし"><span>なし</span><span class="arw" aria-hidden="true">▶</span></button>
+        <div class="msg">いずれかを選んでください</div>
       </div>
-      <div class="nav"><button type="button" class="btn btn-back" data-back>戻る</button></div>
+      <div class="backrow"><button type="button" class="backlink" data-back>‹ 戻る</button></div>
     </section>
 
     <section class="step" data-step="3">
@@ -126,7 +130,8 @@ body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku 
       <div class="field" id="f-tel"><label for="tel">電話<span class="req">必須</span></label>
         <input id="tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="例）09012345678" required><div class="msg">電話番号を正しく入力してください</div><div class="hint">ハイフンあり・なし、どちらでも入力できます</div></div>
       <input class="hp" name="company_url" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <div class="nav"><button type="button" class="btn btn-back" data-back>戻る</button><button type="submit" class="btn btn-main" id="sub">無料で登録する</button></div>
+      <div class="nav3"><button type="submit" class="bigbtn bb-orange" id="sub"><span id="subTxt">無料で登録する</span><span class="arw" aria-hidden="true">▶</span></button></div>
+      <div class="backrow"><button type="button" class="backlink" data-back>‹ 戻る</button></div>
       <div class="sendErr" id="sendErr">送信できませんでした。通信環境をご確認のうえ、もう一度お試しください。</div>
     </section>
 
@@ -181,18 +186,19 @@ body{font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Hiragino Kaku 
 
   f.addEventListener('submit',function(e){
     e.preventDefault();
+    if(document.getElementById('sub').disabled)return;
     if(!ans.q1){go(1);document.querySelector('[data-name=q1]').classList.add('bad');return}
     if(!ans.q2){go(2);document.querySelector('[data-name=q2]').classList.add('bad');return}
     var ok=['pref','name','email','tel'].map(validate).every(Boolean);
     if(!ok){var b=document.querySelector('.field.bad select,.field.bad input');if(b)b.focus();return}
     var sub=document.getElementById('sub'), err=document.getElementById('sendErr');
-    sub.disabled=true; sub.textContent='送信中…'; err.style.display='none';
+    sub.disabled=true; document.getElementById('subTxt').textContent='送信中…'; err.style.display='none';
     var data=Object.assign({q1:ans.q1,q2:ans.q2,pref:document.getElementById('pref').value,name:val('name'),email:val('email'),tel:val('tel'),
       page:location.href.slice(0,500),ref:document.referrer.slice(0,500),ua:navigator.userAgent.slice(0,300),hp:f.company_url.value},track);
     // Apps Script の応答はブラウザから読めないため、text/plain・no-cors で送る
     fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data),keepalive:true})
       .then(function(){complete()})
-      .catch(function(){sub.disabled=false;sub.textContent='無料で登録する';err.style.display='block'});
+      .catch(function(){sub.disabled=false;document.getElementById('subTxt').textContent='無料で登録する';err.style.display='block'});
   });
 
   function complete(){
